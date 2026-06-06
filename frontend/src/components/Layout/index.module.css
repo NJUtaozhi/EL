@@ -1,0 +1,107 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ========== 主内容区 ========== */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-area-bottom) + var(--space-md));
+}
+
+/* ========== 底部标签栏 ========== */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: calc(var(--tabbar-height) + var(--safe-area-bottom));
+  padding-bottom: var(--safe-area-bottom);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.04);
+  z-index: 100;
+}
+
+/* ========== 单个标签项 ========== */
+.tabItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--space-xs) var(--space-sm);
+  min-width: 60px;
+  position: relative;
+  transition: all var(--transition-normal);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tabIconWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  transition: transform var(--transition-normal);
+}
+
+.tabItemActive .tabIconWrap {
+  transform: translateY(-2px);
+}
+
+.tabIcon {
+  color: var(--text-light);
+  transition: color var(--transition-normal);
+}
+
+.tabIconActive {
+  color: var(--color-secondary);
+}
+
+/* 活跃指示点 */
+.activeDot {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  animation: scaleIn 0.25s ease forwards;
+}
+
+.tabLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+  font-weight: 400;
+  transition: color var(--transition-normal);
+}
+
+.tabLabelActive {
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}

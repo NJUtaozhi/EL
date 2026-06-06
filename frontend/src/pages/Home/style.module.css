@@ -1,0 +1,76 @@
+.home {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+/* 欢迎卡片 */
+.welcomeCard {
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+
+.greeting {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* 数据概览 */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.statCard {
+  text-align: center;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.statNumber {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.statLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+/* 快捷入口 */
+.quickActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  cursor: pointer;
+  width: 100%;
+}
+
+.actionIcon {
+  font-size: 28px;
+}
+
+.actionLabel {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--text-primary);
+}

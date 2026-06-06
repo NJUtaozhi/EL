@@ -1,0 +1,74 @@
+.profile {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.pageTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.pageDesc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.avatar {
+  font-size: 44px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-mask);
+  border-radius: var(--radius-full);
+}
+
+.userInfo {
+  flex: 1;
+}
+
+.userName {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.userLevel {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+}
+
+.section {
+  margin-bottom: var(--space-lg);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.placeholder {
+  text-align: center;
+  padding: var(--space-xl);
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderText {
+  color: var(--text-light);
+  font-size: var(--font-size-sm);
+}

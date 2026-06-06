@@ -1,0 +1,58 @@
+.log {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.pageTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.pageDesc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: var(--space-sm);
+}
+
+.emptyText {
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.emptyHint {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  margin-bottom: var(--space-md);
+}
+
+.addBtn {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+  color: var(--text-white);
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: opacity var(--transition-fast);
+}
+
+.addBtn:hover {
+  opacity: 0.9;
+}
