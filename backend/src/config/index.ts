@@ -10,7 +10,7 @@ export const config = {
   databaseUrl: process.env.DATABASE_URL || '',
   llm: {
     apiKey: process.env.LLM_API_KEY || '',
-    apiUrl: process.env.LLM_API_URL || 'https://api.deepseek.com/v1',
+    apiUrl: process.env.LLM_API_URL || 'https://api.deepseek.com',
     model: process.env.LLM_MODEL || 'deepseek-chat',
   },
   jwt: {
