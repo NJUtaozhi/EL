@@ -1,0 +1,153 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  animation: fadeIn 0.35s ease forwards;
+  transition: box-shadow var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* 头部 */
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.typeIcon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.headerInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.strategy {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+/* 收藏按钮 */
+.favBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  color: var(--text-light);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.favBtn:hover {
+  color: #FFB84D;
+  background: rgba(255, 184, 77, 0.1);
+}
+
+.favBtnActive {
+  color: #FFB84D;
+}
+
+/* 步骤 */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.stepNum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.stepText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-top: 2px;
+}
+
+/* 展开按钮 */
+.expandBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--color-secondary);
+  padding: var(--space-xs) 0;
+  transition: opacity var(--transition-fast);
+}
+
+.expandBtn:hover {
+  opacity: 0.8;
+}
+
+/* 鼓励语 */
+.encouragement {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: linear-gradient(135deg, rgba(255, 255, 210, 0.5), rgba(255, 255, 210, 0.2));
+  border-radius: var(--radius-sm);
+}
+
+.encourageIcon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.encourageText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* 小贴士 */
+.tip {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-mask);
+  border-radius: var(--radius-sm);
+}
+
+.tipLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+.tipText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.5;
+}

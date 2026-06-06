@@ -1,0 +1,69 @@
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  transition: transform var(--transition-normal);
+  min-width: 72px;
+}
+
+.earned:hover {
+  transform: translateY(-2px);
+}
+
+.locked {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.iconWrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-mask);
+}
+
+.earned .iconWrap {
+  background: linear-gradient(135deg, var(--color-warm), rgba(255, 255, 210, 0.5));
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+}
+
+.emoji {
+  font-size: 24px;
+}
+
+.glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 0.8; transform: scale(1.1); }
+}
+
+.name {
+  font-size: var(--font-size-xs);
+  color: var(--text-primary);
+  font-weight: 500;
+  text-align: center;
+}
+
+.date {
+  font-size: 10px;
+  color: var(--text-light);
+}
+
+.hint {
+  font-size: 10px;
+  color: var(--text-light);
+}

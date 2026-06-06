@@ -1,0 +1,114 @@
+.btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  position: relative;
+  margin: 0 auto;
+}
+
+/* 可打卡态 */
+.btnActive {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(170, 150, 218, 0.4);
+}
+
+.btnActive:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 32px rgba(170, 150, 218, 0.5);
+}
+
+.btnActive:active {
+  transform: scale(0.95);
+}
+
+.btnLoading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btnEmoji {
+  font-size: 28px;
+  position: relative;
+  z-index: 2;
+}
+
+.btnText {
+  position: relative;
+  z-index: 2;
+}
+
+/* 已打卡态 */
+.btnDone {
+  background: linear-gradient(135deg, var(--color-mint), var(--color-mint-dark));
+  color: var(--text-white);
+  box-shadow: 0 4px 20px rgba(181, 234, 215, 0.4);
+  cursor: default;
+}
+
+.doneIcon {
+  animation: checkBounce 0.5s ease;
+  color: #fff;
+}
+
+.doneText {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+/* 涟漪动画 */
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ripple1,
+.ripple2,
+.ripple3 {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ripplePulse 2s ease-out infinite;
+}
+
+.ripple2 {
+  animation-delay: 0.5s;
+}
+
+.ripple3 {
+  animation-delay: 1s;
+}
+
+@keyframes ripplePulse {
+  0% {
+    width: 80px;
+    height: 80px;
+    opacity: 0.8;
+  }
+  100% {
+    width: 160px;
+    height: 160px;
+    opacity: 0;
+  }
+}
+
+@keyframes checkBounce {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}

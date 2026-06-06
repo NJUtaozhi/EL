@@ -1,0 +1,137 @@
+.intervention {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.pageTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.pageDesc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* ========== 类型选择 ========== */
+.typeSection {
+  margin-bottom: var(--space-lg);
+}
+
+.typeTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.typeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.typeBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  border: 2px solid transparent;
+  transition: all var(--transition-normal);
+}
+
+.typeBtn:hover {
+  background: rgba(170, 150, 218, 0.08);
+  color: var(--color-secondary-dark);
+}
+
+.typeBtnSelected {
+  background: rgba(170, 150, 218, 0.12);
+  border-color: var(--color-secondary);
+  color: var(--color-secondary-dark);
+  font-weight: 600;
+}
+
+/* ========== 预设策略 ========== */
+.presetSection {
+  margin-bottom: var(--space-lg);
+}
+
+.presetTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.presetCard {
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.presetCard:hover {
+  border-color: var(--color-secondary);
+}
+
+.presetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.presetName {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+
+.presetStrategy {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ========== 生成按钮 ========== */
+.generateBtn {
+  width: 100%;
+  padding: var(--space-md);
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+  color: #fff;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  margin-bottom: var(--space-lg);
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 16px rgba(170, 150, 218, 0.3);
+}
+
+.generateBtn:hover {
+  opacity: 0.92;
+  box-shadow: 0 6px 24px rgba(170, 150, 218, 0.4);
+  transform: translateY(-1px);
+}
+
+.generateBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ========== 状态 ========== */
+.stateCard {
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+.stateText {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+}
