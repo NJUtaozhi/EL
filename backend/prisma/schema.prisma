@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  openId        String?    @unique
+  nickname      String?
+  avatar        String?
+  checkinStreak Int        @default(0)
+  createdAt     DateTime   @default(now())
+  tasks         Task[]
+  checkins      Checkin[]
+  analyses      Analysis[]
+}
+
+model Task {
+  id            Int        @id @default(autoincrement())
+  userId        Int
+  title         String
+  reason        String?
+  emotion       String?
+  weather       String?
+  semesterPhase String?
+  createdAt     DateTime   @default(now())
+  user          User       @relation(fields: [userId], references: [id])
+  analysis      Analysis?
+}
+
+model Analysis {
+  id         Int      @id @default(autoincrement())
+  taskId     Int      @unique
+  type       String
+  confidence Float
+  keywords   String?
+  suggestion String?
+  createdAt  DateTime @default(now())
+  task       Task     @relation(fields: [taskId], references: [id])
+}
+
+model Checkin {
+  id     Int      @id @default(autoincrement())
+  userId Int
+  action String
+  date   DateTime @default(now())
+  user   User     @relation(fields: [userId], references: [id])
+}
+
+model Badge {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String
+  icon      String
+  condition String
+  earnedAt  DateTime @default(now())
+}
