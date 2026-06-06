@@ -2,6 +2,7 @@
   animation: fadeIn 0.35s ease forwards;
 }
 
+/* ========== 页面标题 ========== */
 .header {
   margin-bottom: var(--space-lg);
 }
@@ -17,6 +18,62 @@
   color: var(--text-secondary);
 }
 
+/* ========== 新建表单区 ========== */
+.formSection {
+  margin-bottom: var(--space-lg);
+}
+
+/* ========== 列表区 ========== */
+.listSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listTitle {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+
+.count {
+  font-weight: 400;
+  color: var(--text-light);
+  font-size: var(--font-size-sm);
+  margin-left: var(--space-xs);
+}
+
+.refreshBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  color: var(--text-light);
+  transition: all var(--transition-fast);
+}
+
+.refreshBtn:hover {
+  background: var(--bg-mask);
+  color: var(--text-secondary);
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ========== 空状态 ========== */
 .emptyState {
   text-align: center;
   padding: var(--space-xl) var(--space-lg);
@@ -29,30 +86,52 @@
 .emptyIcon {
   font-size: 48px;
   margin-bottom: var(--space-sm);
+  opacity: 0.6;
 }
 
 .emptyText {
   font-size: var(--font-size-md);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .emptyHint {
   font-size: var(--font-size-sm);
   color: var(--text-light);
-  margin-bottom: var(--space-md);
 }
 
-.addBtn {
-  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
-  color: var(--text-white);
-  padding: var(--space-sm) var(--space-xl);
+/* ========== 通用状态卡片 ========== */
+.stateCard {
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.stateText {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+}
+
+.retryBtn {
+  padding: var(--space-xs) var(--space-lg);
   border-radius: var(--radius-full);
-  font-size: var(--font-size-md);
-  font-weight: 600;
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
   transition: opacity var(--transition-fast);
 }
 
-.addBtn:hover {
+.retryBtn:hover {
   opacity: 0.9;
+}
+
+/* ========== 任务列表 ========== */
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }

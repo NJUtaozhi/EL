@@ -1,0 +1,78 @@
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.grid {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  border: 2px solid transparent;
+  transition: all var(--transition-normal);
+  min-width: 56px;
+  position: relative;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--bg-mask);
+  transform: translateY(-1px);
+}
+
+.item:active {
+  transform: scale(0.95);
+}
+
+.itemSelected {
+  background: rgba(170, 150, 218, 0.12);
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 2px rgba(170, 150, 218, 0.15);
+}
+
+.emoji {
+  font-size: 28px;
+  transition: transform var(--transition-normal);
+}
+
+.itemSelected .emoji {
+  transform: scale(1.1);
+}
+
+.itemLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+  transition: color var(--transition-normal);
+}
+
+.itemLabelSelected {
+  color: var(--color-secondary-dark);
+  font-weight: 600;
+}
+
+.dot {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  animation: scaleIn 0.25s ease forwards;
+}

@@ -1,0 +1,138 @@
+/* ========== 新建按钮（折叠态） ========== */
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+  color: #fff;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-normal);
+}
+
+.addBtn:hover {
+  opacity: 0.92;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+/* ========== 表单容器 ========== */
+.form {
+  animation: scaleIn 0.25s ease forwards;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formTitle {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+
+.cancelBtn {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  transition: color var(--transition-fast);
+}
+
+.cancelBtn:hover {
+  color: var(--text-secondary);
+}
+
+/* ========== 输入字段 ========== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  position: relative;
+}
+
+.input {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  font-size: var(--font-size-md);
+  border: 2px solid transparent;
+  transition: border-color var(--transition-normal);
+}
+
+.input:focus {
+  border-color: var(--color-secondary);
+  background: #fff;
+}
+
+.charCount {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: -18px;
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+/* ========== 拖延理由 ========== */
+.reasonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fieldLabel {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.textarea {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  font-size: var(--font-size-sm);
+  border: 2px solid transparent;
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.6;
+  transition: border-color var(--transition-normal);
+}
+
+.textarea:focus {
+  border-color: var(--color-secondary);
+  background: #fff;
+}
+
+/* ========== 提交按钮 ========== */
+.submitBtn {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-full);
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: all var(--transition-normal);
+}
+
+.submitBtn:hover {
+  background: var(--color-secondary-dark);
+  box-shadow: var(--shadow-card);
+}
+
+.submitBtnDisabled {
+  background: var(--bg-mask);
+  color: var(--text-light);
+  cursor: not-allowed;
+}
+
+.submitBtnDisabled:hover {
+  background: var(--bg-mask);
+  box-shadow: none;
+}
