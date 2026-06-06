@@ -10,6 +10,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -20,7 +21,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  /* 禁止用户选择（提升 App 感） */
   user-select: none;
   -webkit-user-select: none;
 }
@@ -28,11 +28,12 @@ body {
 /* ========== 根容器 ========== */
 #root {
   min-height: 100vh;
-  max-width: 480px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
   background: var(--bg-page);
   position: relative;
   overflow-x: hidden;
+  transition: max-width var(--transition-normal);
 }
 
 /* ========== 链接 ========== */
@@ -60,11 +61,18 @@ button {
   font-size: inherit;
   cursor: pointer;
   outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button:active {
   transform: scale(0.96);
   transition: transform var(--transition-fast);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* ========== 输入框重置 ========== */
@@ -75,6 +83,13 @@ textarea {
   border: none;
   outline: none;
   background: transparent;
+}
+
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
 }
 
 /* ========== 滚动条美化 ========== */
@@ -114,7 +129,40 @@ textarea {
 
 /* ========== 治愈系色块 ========== */
 .healing-gradient {
-  background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary-light), var(--color-accent-light));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-light),
+    var(--color-secondary-light),
+    var(--color-accent-light)
+  );
+}
+
+/* ========== 响应式布局 ========== */
+
+/* 平板：双列网格 */
+@media (min-width: 768px) {
+  #root {
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+}
+
+/* 桌面：更大间距 + 阴影边框 */
+@media (min-width: 1024px) {
+  #root {
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.06);
+    margin-top: 0;
+  }
+
+  .page-container {
+    padding: var(--space-lg);
+    padding-bottom: calc(var(--tabbar-height) + var(--safe-area-bottom) + var(--space-lg));
+  }
 }
 
 /* ========== 动画关键帧 ========== */
@@ -144,10 +192,29 @@ textarea {
   100% { transform: scale(1); }
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 .fade-in {
   animation: fadeIn var(--transition-slow) ease forwards;
 }
 
 .scale-in {
   animation: scaleIn var(--transition-normal) ease forwards;
+}
+
+/* ========== 长文本截断工具类 ========== */
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

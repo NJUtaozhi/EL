@@ -1,21 +1,21 @@
 :root {
   /* ========== 治愈系主色调 - 莫兰迪色系 ========== */
-  --color-primary: #A8D8EA;       /* 柔和蓝 */
+  --color-primary: #A8D8EA;
   --color-primary-light: #C5E8F3;
   --color-primary-dark: #7AB8CE;
 
-  --color-secondary: #AA96DA;     /* 柔和紫 */
+  --color-secondary: #AA96DA;
   --color-secondary-light: #C4B5E8;
   --color-secondary-dark: #8B7AC0;
 
-  --color-accent: #FCBAD3;        /* 柔和粉 */
+  --color-accent: #FCBAD3;
   --color-accent-light: #FDD5E5;
   --color-accent-dark: #F0A0BF;
 
-  --color-warm: #FFFFD2;          /* 暖黄 */
+  --color-warm: #FFFFD2;
   --color-warm-dark: #F5F0C0;
 
-  --color-mint: #B5EAD7;          /* 薄荷绿 */
+  --color-mint: #B5EAD7;
   --color-mint-dark: #8FD4B8;
 
   /* ========== 功能色 ========== */
@@ -31,7 +31,7 @@
   --text-white: #FFFFFF;
 
   /* ========== 背景色 ========== */
-  --bg-page: #FAF9F6;             /* 暖白底色 */
+  --bg-page: #FAF9F6;
   --bg-card: #FFFFFF;
   --bg-mask: rgba(0, 0, 0, 0.04);
   --bg-input: #F5F3F0;
@@ -75,11 +75,50 @@
   --transition-normal: 0.25s ease;
   --transition-slow: 0.35s ease;
 
-  /* ========== 渐变色板（用于 Charts） ========== */
+  /* ========== 渐变色板（Charts） ========== */
   --chart-color-1: #A8D8EA;
   --chart-color-2: #AA96DA;
   --chart-color-3: #FCBAD3;
   --chart-color-4: #FFFFD2;
   --chart-color-5: #B5EAD7;
   --chart-color-6: #FFD4B8;
+
+  /* ========== 布局容器最大宽度 ========== */
+  --container-max-width: 480px;
+}
+
+/* ========== 响应式断点：平板 (≥768px) ========== */
+@media (min-width: 768px) {
+  :root {
+    --container-max-width: 768px;
+    --font-size-xs: 13px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 22px;
+    --font-size-xxl: 28px;
+    --space-md: 20px;
+    --space-lg: 28px;
+    --space-xl: 40px;
+    --navbar-height: 52px;
+    --tabbar-height: 60px;
+  }
+}
+
+/* ========== 响应式断点：桌面 (≥1024px) ========== */
+@media (min-width: 1024px) {
+  :root {
+    --container-max-width: 1024px;
+    --font-size-xs: 13px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 19px;
+    --font-size-xl: 24px;
+    --font-size-xxl: 32px;
+    --space-md: 24px;
+    --space-lg: 32px;
+    --space-xl: 48px;
+    --navbar-height: 56px;
+    --tabbar-height: 64px;
+  }
 }

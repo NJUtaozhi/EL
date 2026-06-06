@@ -19,7 +19,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 480px;
+  max-width: var(--container-max-width);
   height: calc(var(--tabbar-height) + var(--safe-area-bottom));
   padding-bottom: var(--safe-area-bottom);
   display: flex;
@@ -30,6 +30,7 @@
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.04);
+  transition: max-width var(--transition-normal);
   z-index: 100;
 }
 
