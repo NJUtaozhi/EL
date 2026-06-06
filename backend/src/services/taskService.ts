@@ -5,6 +5,7 @@
 import prisma from '../config/database'
 import { SEMESTER_PHASES } from '../utils/constants'
 import type { CreateTaskDTO, Task, TaskWithAnalysis } from '../models/Task'
+import { checkAndAwardBadges } from './checkinService'
 
 /**
  * 根据当前日期自动判断学期阶段
@@ -53,6 +54,9 @@ export async function createTask(userId: number, dto: CreateTaskDTO): Promise<Ta
       semesterPhase: getCurrentSemesterPhase(),
     },
   })
+
+  // 异步检查徽章（不阻塞任务创建返回）
+  checkAndAwardBadges(userId).catch(() => {})
 
   return {
     id: task.id,

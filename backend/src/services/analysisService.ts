@@ -13,6 +13,7 @@ import prisma from '../config/database'
 import { singlePrompt } from './llmService'
 import { llmConfig } from '../config/llm'
 import type { AttributionResult, AnalysisWithTask } from '../models/Analysis'
+import { checkAndAwardBadges } from './checkinService'
 import logger from '../utils/logger'
 
 /**
@@ -219,6 +220,9 @@ export async function analyzeTask(
   })
 
   logger.info(`归因分析存入数据库: analysisId=${analysis.id}, taskId=${taskId}`)
+
+  // 异步检查徽章（不阻塞分析返回）
+  checkAndAwardBadges(userId).catch(() => {})
 
   // 7. 返回结果
   return {
