@@ -12,10 +12,13 @@ export interface Analysis {
 }
 
 export interface AttributionResult {
+  id: number
+  taskId: number
   type: string
   confidence: number
   keywords: string[]
   suggestion: string
+  createdAt: Date
 }
 
 export interface AnalysisWithTask extends Analysis {
