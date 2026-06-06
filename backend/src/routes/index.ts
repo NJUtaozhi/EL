@@ -8,6 +8,7 @@ import analysisRoutes from './analysis'
 import userRoutes from './user'
 import checkinRoutes from './checkin'
 import dashboardRoutes from './dashboard'
+import interventionRoutes from './intervention'
 import chatRoutes from './chat'
 
 const router = Router()
@@ -17,6 +18,7 @@ router.use('/analysis', analysisRoutes)
 router.use('/user', userRoutes)
 router.use('/checkin', checkinRoutes)
 router.use('/dashboard', dashboardRoutes)
+router.use('/intervention', interventionRoutes)
 router.use('/chat', chatRoutes)
 
 export default router

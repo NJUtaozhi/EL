@@ -5,8 +5,11 @@ export interface Suggestion {
   id: number
   type: string
   strategy: string
+  title: string
   steps: string[]
   encouragement: string
+  tip: string
+  baseStrategy?: string
   createdAt: Date
 }
 
