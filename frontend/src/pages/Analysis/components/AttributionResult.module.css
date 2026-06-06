@@ -1,0 +1,91 @@
+.result {
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: scaleIn 0.35s ease forwards;
+}
+
+/* ========== 类型头部 ========== */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.typeIcon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.typeInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.typeName {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.typeDesc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.confidence {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.confNum {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  color: var(--color-secondary);
+  line-height: 1;
+}
+
+.confLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+/* ========== 区块 ========== */
+.section {
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+/* ========== 关键词 ========== */
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.keyword {
+  display: inline-block;
+  padding: 4px var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  border: 1px solid;
+  font-weight: 500;
+}
+
+/* ========== AI建议 ========== */
+.suggestion {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  white-space: pre-line;
+}
