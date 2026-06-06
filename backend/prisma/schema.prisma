@@ -16,7 +16,6 @@ model User {
   createdAt     DateTime   @default(now())
   tasks         Task[]
   checkins      Checkin[]
-  analyses      Analysis[]
 }
 
 model Task {
