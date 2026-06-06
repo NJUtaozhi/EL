@@ -1,0 +1,61 @@
+.report {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* 统计摘要 */
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: var(--space-md);
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.sumNum {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.sumLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+.divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* 饼图区 */
+.chartSection {
+  padding: var(--space-md);
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.chartTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.noData {
+  text-align: center;
+  color: var(--text-light);
+  font-size: var(--font-size-sm);
+  padding: var(--space-xl) 0;
+}

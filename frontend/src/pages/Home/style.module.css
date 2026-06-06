@@ -2,7 +2,7 @@
   animation: fadeIn 0.35s ease forwards;
 }
 
-/* 欢迎卡片 */
+/* ========== 欢迎卡片 ========== */
 .welcomeCard {
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
@@ -17,17 +17,16 @@
 }
 
 .subtitle {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
-  font-weight: 400;
 }
 
-/* 数据概览 */
+/* ========== 数据概览 ========== */
 .statsRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-sm);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
 .statCard {
@@ -44,12 +43,127 @@
   color: var(--color-secondary);
 }
 
+.statLoading {
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  color: var(--text-light);
+}
+
 .statLabel {
   font-size: var(--font-size-xs);
   color: var(--text-secondary);
 }
 
-/* 快捷入口 */
+/* ========== 最近拖延类型 ========== */
+.recentType {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.recentIcon {
+  font-size: 32px;
+}
+
+.recentInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.recentLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+.recentValue {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ========== 状态卡片 ========== */
+.stateCard {
+  text-align: center;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.stateText {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  margin-bottom: var(--space-sm);
+}
+
+.retryBtn {
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-full);
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  transition: opacity var(--transition-fast);
+}
+
+.retryBtn:hover {
+  opacity: 0.9;
+}
+
+/* ========== 打卡卡片 ========== */
+.checkinCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.checkinInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.checkinIcon {
+  font-size: 32px;
+}
+
+.checkinTitle {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+
+.checkinHint {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+.checkinBtn {
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-full);
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.checkinBtn:hover {
+  background: var(--color-secondary-dark);
+}
+
+.checkinBtnDone {
+  background: var(--color-mint);
+  color: var(--color-mint-dark);
+  cursor: default;
+}
+
+.checkinBtn:disabled {
+  opacity: 0.7;
+}
+
+/* ========== 快捷入口 ========== */
 .quickActions {
   display: flex;
   flex-direction: column;
@@ -63,6 +177,11 @@
   padding: var(--space-md);
   cursor: pointer;
   width: 100%;
+  transition: all var(--transition-fast);
+}
+
+.actionBtn:hover {
+  border-color: var(--color-secondary);
 }
 
 .actionIcon {

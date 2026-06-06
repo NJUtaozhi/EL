@@ -17,6 +17,7 @@
   color: var(--text-secondary);
 }
 
+/* ========== 用户卡片 ========== */
 .userCard {
   display: flex;
   align-items: center;
@@ -49,26 +50,45 @@
   color: var(--text-light);
 }
 
-.section {
-  margin-bottom: var(--space-lg);
+/* ========== 状态卡片 ========== */
+.stateCard {
+  text-align: center;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
-.sectionTitle {
-  font-size: var(--font-size-md);
-  font-weight: 600;
+.stateText {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
   margin-bottom: var(--space-sm);
 }
 
-.placeholder {
-  text-align: center;
-  padding: var(--space-xl);
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.retryBtn {
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-full);
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: var(--font-size-sm);
 }
 
-.placeholderText {
+.retryBtn:hover {
+  opacity: 0.9;
+}
+
+/* ========== 分区 ========== */
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.section {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+.heatmapHint {
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-xs);
   color: var(--text-light);
-  font-size: var(--font-size-sm);
+  text-align: center;
 }
