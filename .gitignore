@@ -9,3 +9,5 @@ coverage/
 .cache/
 prisma/*.db
 prisma/*.db-journal
+data/
+.claude/

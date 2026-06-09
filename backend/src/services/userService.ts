@@ -54,6 +54,24 @@ export async function login(dto: LoginDTO): Promise<UserWithToken> {
 }
 
 /**
+ * 更新用户昵称
+ */
+export async function updateNickname(userId: number, nickname: string): Promise<UserInfo> {
+  const user = await prisma.user.update({
+    where: { id: userId },
+    data: { nickname },
+  })
+
+  return {
+    id: user.id,
+    nickname: user.nickname,
+    avatar: user.avatar,
+    checkinStreak: user.checkinStreak,
+    createdAt: user.createdAt,
+  }
+}
+
+/**
  * 根据 ID 获取用户信息
  */
 export async function getUserById(userId: number): Promise<UserInfo | null> {

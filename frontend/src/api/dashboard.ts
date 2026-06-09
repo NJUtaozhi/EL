@@ -9,6 +9,7 @@ export interface DashboardData {
   todayTaskCount: number
   weekTaskCount: number
   streak: number
+  todayCheckedIn: boolean
   weekCheckinDays: number
   totalTasks: number
   totalCheckins: number

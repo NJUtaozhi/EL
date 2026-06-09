@@ -20,4 +20,5 @@ export interface CheckinRecord {
   id: number
   action: string
   date: string
+  streak: number
 }

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getDashboardOverview, type DashboardData } from '@/api/dashboard'
 import { useCheckin } from '@/hooks/useCheckin'
+import { useCheckinStore } from '@/store/checkinStore'
 import styles from './style.module.css'
 
 /** 拖延类型 → 展示配置 */
@@ -16,6 +17,7 @@ const TYPE_EMOJI: Record<string, string> = {
 export default function HomePage() {
   const navigate = useNavigate()
   const { streak, todayCheckedIn, loading: checkinLoading, checkin } = useCheckin()
+  const { setStreak, setTodayCheckedIn } = useCheckinStore()
 
   const [dashboard, setDashboard] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -27,12 +29,15 @@ export default function HomePage() {
     try {
       const data = await getDashboardOverview()
       setDashboard(data)
+      // 将后端返回的真实 streak 和 todayCheckedIn 同步到打卡 store
+      setStreak(data.streak)
+      setTodayCheckedIn(data.todayCheckedIn)
     } catch {
       setError(true)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [setStreak, setTodayCheckedIn])
 
   useEffect(() => {
     fetchDashboard()
@@ -71,7 +76,11 @@ export default function HomePage() {
           <span className={styles.statLabel}>今日任务</span>
         </div>
         <div className={`card ${styles.statCard}`}>
-          <span className={styles.statNumber}>{streak}</span>
+          {loading ? (
+            <span className={styles.statLoading}>--</span>
+          ) : (
+            <span className={styles.statNumber}>{streak}</span>
+          )}
           <span className={styles.statLabel}>连续打卡</span>
         </div>
         <div className={`card ${styles.statCard}`}>
@@ -92,6 +101,17 @@ export default function HomePage() {
             <span className={styles.recentLabel}>最近拖延类型</span>
             <span className={styles.recentValue}>{recentType}</span>
           </div>
+        </div>
+      )}
+
+      {/* 新用户引导：还没有数据时显示 */}
+      {!loading && !error && !recentType && dashboard && (
+        <div className={`card ${styles.stateCard}`}>
+          <span style={{ fontSize: 32 }}>🚀</span>
+          <p className={styles.stateText}>准备开始你的不拖延之旅</p>
+          <p style={{ fontSize: 13, color: 'var(--text-light)', marginTop: 4 }}>
+            先去「记录拖延」写下第一条记录吧
+          </p>
         </div>
       )}
 

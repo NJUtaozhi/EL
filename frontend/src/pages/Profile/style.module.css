@@ -43,6 +43,36 @@
 .userName {
   font-size: var(--font-size-lg);
   font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.userName:hover {
+  color: var(--color-secondary);
+}
+
+.editHint {
+  font-size: var(--font-size-sm);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.userName:hover .editHint {
+  opacity: 0.5;
+}
+
+.nicknameInput {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  border: 2px solid var(--color-secondary);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  outline: none;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  width: 160px;
 }
 
 .userLevel {
@@ -61,6 +91,18 @@
   font-size: var(--font-size-sm);
   color: var(--text-light);
   margin-bottom: var(--space-sm);
+}
+
+.emptyIcon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.emptyHint {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+  margin-top: var(--space-xs);
 }
 
 .retryBtn {

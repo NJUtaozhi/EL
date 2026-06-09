@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { getDashboard, type DashboardData } from '@/api/dashboard'
+import { updateNickname } from '@/api/user'
 import { useUserStore } from '@/store/userStore'
 import WeeklyReport from './components/WeeklyReport'
 import ProfileHeatMap from './components/HeatMap'
@@ -23,11 +24,16 @@ function generateMockHeatMap(): Array<{ day: number; period: string; value: numb
 }
 
 export default function ProfilePage() {
-  const { user } = useUserStore()
+  const { user, setUser } = useUserStore()
   const [dashboard, setDashboard] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [heatMapData] = useState(() => generateMockHeatMap())
+
+  // 昵称编辑
+  const [editing, setEditing] = useState(false)
+  const [editName, setEditName] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const fetchDashboard = useCallback(async () => {
     setLoading(true)
@@ -46,6 +52,32 @@ export default function ProfilePage() {
     fetchDashboard()
   }, [fetchDashboard])
 
+  const startEdit = () => {
+    setEditName(user?.nickname || '')
+    setEditing(true)
+    setTimeout(() => inputRef.current?.focus(), 50)
+  }
+
+  const saveNickname = async () => {
+    const name = editName.trim()
+    if (!name || name === user?.nickname) {
+      setEditing(false)
+      return
+    }
+    try {
+      const updated = await updateNickname(name)
+      setUser(updated)
+    } catch {
+      // 失败恢复原值
+    }
+    setEditing(false)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') saveNickname()
+    if (e.key === 'Escape') setEditing(false)
+  }
+
   return (
     <div className={`page-container ${styles.profile}`}>
       <div className={styles.header}>
@@ -57,7 +89,22 @@ export default function ProfilePage() {
       <div className={`card ${styles.userCard}`}>
         <div className={styles.avatar}>😊</div>
         <div className={styles.userInfo}>
-          <h3 className={styles.userName}>{user?.nickname || '拖延探索者'}</h3>
+          {editing ? (
+            <input
+              ref={inputRef}
+              className={styles.nicknameInput}
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              onBlur={saveNickname}
+              onKeyDown={handleKeyDown}
+              maxLength={20}
+            />
+          ) : (
+            <h3 className={styles.userName} onClick={startEdit} title="点击修改昵称">
+              {user?.nickname || '拖延探索者'}
+              <span className={styles.editHint}> ✎</span>
+            </h3>
+          )}
           <p className={styles.userLevel}>
             连续打卡 {dashboard?.streak ?? 0} 天 · 总计 {dashboard?.totalCheckins ?? 0} 次
           </p>
@@ -84,15 +131,31 @@ export default function ProfilePage() {
         <div className={styles.sections}>
           {/* 周报告 + 饼图 */}
           <div className={styles.section}>
-            <WeeklyReport dashboard={dashboard} />
+            {dashboard.totalTasks > 0 ? (
+              <WeeklyReport dashboard={dashboard} />
+            ) : (
+              <div className={`card ${styles.stateCard}`}>
+                <span className={styles.emptyIcon}>📊</span>
+                <p className={styles.stateText}>还没有拖延数据</p>
+                <p className={styles.emptyHint}>记录几条拖延后再来看看你的拖延画像</p>
+              </div>
+            )}
           </div>
 
           {/* 趋势曲线 */}
           <div className={styles.section}>
-            <ProfileTrendCurve
-              taskData={dashboard.weekDailyTaskCounts}
-              checkinData={dashboard.weekDailyCheckinCounts}
-            />
+            {dashboard.totalTasks > 0 ? (
+              <ProfileTrendCurve
+                taskData={dashboard.weekDailyTaskCounts}
+                checkinData={dashboard.weekDailyCheckinCounts}
+              />
+            ) : (
+              <div className={`card ${styles.stateCard}`}>
+                <span className={styles.emptyIcon}>📈</span>
+                <p className={styles.stateText}>趋势图需要更多数据</p>
+                <p className={styles.emptyHint}>坚持记录一周后，这里会出现你的拖延趋势</p>
+              </div>
+            )}
           </div>
 
           {/* 热力图 */}

@@ -1,41 +1,50 @@
-import { useState, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useCheckinStore } from '@/store/checkinStore'
-import { doCheckin, getCheckinStreak } from '@/api/checkin'
+import { doCheckin, getCheckinStatus } from '@/api/checkin'
 
 /**
  * 打卡状态 Hook
  * 管理打卡操作和连续天数
+ * - 自动加载后端真实连续天数
+ * - 打卡后使用后端返回的实际 streak
  */
 export function useCheckin() {
   const { streak, todayCheckedIn, setStreak, setTodayCheckedIn } =
     useCheckinStore()
   const [loading, setLoading] = useState(false)
 
-  /** 加载连续打卡天数 */
-  const fetchStreak = useCallback(async () => {
+  /** 加载打卡状态（streak + todayCheckedIn） */
+  const fetchStatus = useCallback(async () => {
     try {
-      const s = await getCheckinStreak()
-      setStreak(s)
+      const status = await getCheckinStatus()
+      setStreak(status.streak)
+      setTodayCheckedIn(status.todayCheckedIn)
     } catch {
       // 静默失败
     }
-  }, [setStreak])
+  }, [setStreak, setTodayCheckedIn])
+
+  /** 组件挂载时自动加载打卡状态 */
+  useEffect(() => {
+    fetchStatus()
+  }, [fetchStatus])
 
   /** 执行打卡 */
   const checkin = useCallback(
     async (action: string) => {
       setLoading(true)
       try {
-        await doCheckin(action)
+        const result = await doCheckin(action)
         setTodayCheckedIn(true)
-        setStreak(streak + 1)
+        // 使用后端返回的真实连续天数，而非前端 +1
+        setStreak(result.streak)
       } catch {
         throw new Error('打卡失败')
       } finally {
         setLoading(false)
       }
     },
-    [streak, setStreak, setTodayCheckedIn]
+    [setStreak, setTodayCheckedIn]
   )
 
   return {
@@ -43,6 +52,6 @@ export function useCheckin() {
     todayCheckedIn,
     loading,
     checkin,
-    fetchStreak,
+    fetchStatus,
   }
 }

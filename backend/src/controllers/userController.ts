@@ -26,6 +26,22 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 }
 
 /**
+ * PUT /api/user/me
+ * 更新当前用户昵称
+ */
+export async function updateMe(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const userId = req.user!.userId
+    const { nickname } = req.body
+
+    const user = await userService.updateNickname(userId, nickname)
+    success(res, user, '昵称已更新')
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
  * GET /api/user/me
  * 获取当前登录用户信息
  */

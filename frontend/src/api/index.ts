@@ -21,13 +21,23 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// 响应拦截：统一错误处理
+// 响应拦截：统一解包 + 错误处理
+// 后端统一返回 { code: 0, data: ..., message: "ok" }
+// 拦截器自动解包 data，code !== 0 时抛出异常
 api.interceptors.response.use(
-  (res) => res.data,
+  (res) => {
+    const body = res.data
+    if (body && body.code === 0) {
+      return body.data // 自动解包内层 data
+    }
+    // 后端返回的业务错误
+    const msg = body?.message || '请求失败'
+    return Promise.reject(new Error(msg))
+  },
   (err) => {
     const msg = err.response?.data?.message || '网络异常，请稍后重试'
     console.error('[API Error]', msg)
-    return Promise.reject(err)
+    return Promise.reject(new Error(msg))
   }
 )
 

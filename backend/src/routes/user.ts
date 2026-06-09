@@ -7,7 +7,7 @@ import { Router } from 'express'
 import { auth } from '../middleware/auth'
 import { validate } from '../middleware/validator'
 import { z } from 'zod'
-import { login, getMe } from '../controllers/userController'
+import { login, getMe, updateMe } from '../controllers/userController'
 
 const router = Router()
 
@@ -18,7 +18,13 @@ const loginSchema = z.object({
   avatar: z.string().optional(),
 })
 
+// 更新昵称校验
+const updateMeSchema = z.object({
+  nickname: z.string().min(1, '昵称不能为空').max(20, '昵称最长20字'),
+})
+
 router.post('/login', validate(loginSchema), login)
 router.get('/me', auth, getMe)
+router.put('/me', auth, validate(updateMeSchema), updateMe)
 
 export default router

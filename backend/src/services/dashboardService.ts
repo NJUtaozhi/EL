@@ -112,9 +112,9 @@ export async function getDashboardData(userId: number): Promise<DashboardData> {
   })
   const weekDailyCheckinCounts = buildDailyCheckinCounts(week.start, weekCheckins)
 
-  // 本周已打卡天数（不重复日期）
+  // 本周已打卡天数（不重复日期，使用本地时区）
   const checkedInDays = new Set(
-    weekCheckins.map((c) => c.date.toISOString().slice(0, 10)),
+    weekCheckins.map((c) => toDateKey(c.date)),
   )
 
   logger.info(`仪表盘数据聚合完成: userId=${userId}, todayTasks=${todayTaskCount}, streak=${checkinStatus.streak}`)
@@ -133,6 +133,14 @@ export async function getDashboardData(userId: number): Promise<DashboardData> {
   }
 }
 
+/** 格式化日期为 YYYY-MM-DD（本地时区，避免 UTC 偏移导致日期错位） */
+function toDateKey(d: Date): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
 /**
  * 构建本周每日任务数数组
  */
@@ -144,11 +152,11 @@ function buildDailyCounts(
 
   for (let i = 0; i < 7; i++) {
     const d = new Date(weekStart.getTime() + i * 24 * 60 * 60 * 1000)
-    counts.set(d.toISOString().slice(0, 10), 0)
+    counts.set(toDateKey(d), 0)
   }
 
   for (const t of tasks) {
-    const key = t.createdAt.toISOString().slice(0, 10)
+    const key = toDateKey(t.createdAt)
     counts.set(key, (counts.get(key) || 0) + 1)
   }
 
@@ -166,11 +174,11 @@ function buildDailyCheckinCounts(
 
   for (let i = 0; i < 7; i++) {
     const d = new Date(weekStart.getTime() + i * 24 * 60 * 60 * 1000)
-    counts.set(d.toISOString().slice(0, 10), 0)
+    counts.set(toDateKey(d), 0)
   }
 
   for (const c of checkins) {
-    const key = c.date.toISOString().slice(0, 10)
+    const key = toDateKey(c.date)
     counts.set(key, (counts.get(key) || 0) + 1)
   }
 
