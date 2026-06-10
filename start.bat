@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 cd /d "%~dp0"
 title EL Startup
 
@@ -38,12 +39,27 @@ cd /d "%~dp0"
 
 echo.
 echo [4/5] Starting backend...
-REM Kill any existing backend
-taskkill //FI "WINDOWTITLE eq EL-Backend*" //F >nul 2>&1
-REM Open in a normal window so you can see if it crashes
-start "EL-Backend - DO-NOT-CLOSE" cmd /k "cd /d \"%~dp0backend\" && echo Backend running on port 3000... && node dist\index.js"
-timeout /t 3 /nobreak >nul
-echo   [OK] Backend started (port 3000)
+REM Kill any existing process on port 3000 using PowerShell (reliable parsing)
+powershell -Command "$pids = (Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue).OwningProcess | Select-Object -Unique; foreach ($p in $pids) { Stop-Process -Id $p -Force -ErrorAction SilentlyContinue; Write-Host '  Killed old backend (PID:' $p ')' }"
+REM Start backend in a new window using PowerShell Start-Process
+powershell -Command "Start-Process -FilePath 'cmd' -ArgumentList '/k cd /d %~dp0backend && node dist/index.js'"
+
+echo   Waiting for backend to be ready...
+set /a BACKEND_RETRY=0
+:wait_backend
+timeout /t 2 /nobreak >nul
+netstat -ano 2>nul | find ":3000" | find "LISTENING" >nul 2>&1
+if %errorlevel% equ 0 goto backend_ok
+set /a BACKEND_RETRY+=1
+if !BACKEND_RETRY! geq 15 (
+    echo   [FAIL] Backend failed to start after 30 seconds!
+    echo   Make sure Node.js is installed and backend/dist/ is built.
+    pause
+    exit /b 1
+)
+goto wait_backend
+:backend_ok
+echo   [OK] Backend is ready (port 3000)
 
 echo.
 echo [5/5] Starting Nginx...
