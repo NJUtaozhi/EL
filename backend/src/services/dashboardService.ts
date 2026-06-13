@@ -58,6 +58,8 @@ export interface DashboardData {
   weekDailyTaskCounts: Array<{ date: string; count: number }>
   /** 本周每日打卡数（趋势图数据） */
   weekDailyCheckinCounts: Array<{ date: string; count: number }>
+  /** 拖延热力图数据（星期×时段×次数） */
+  heatMapData: Array<{ day: number; period: string; value: number }>
 }
 
 /**
@@ -119,6 +121,9 @@ export async function getDashboardData(userId: number): Promise<DashboardData> {
 
   logger.info(`仪表盘数据聚合完成: userId=${userId}, todayTasks=${todayTaskCount}, streak=${checkinStatus.streak}`)
 
+  // 热力图数据（基于本周任务）
+  const heatMapData = buildHeatMapData(weekTasks)
+
   return {
     todayTaskCount,
     weekTaskCount: weekTasks.length,
@@ -130,6 +135,7 @@ export async function getDashboardData(userId: number): Promise<DashboardData> {
     typeDistribution,
     weekDailyTaskCounts,
     weekDailyCheckinCounts,
+    heatMapData,
   }
 }
 
@@ -183,6 +189,46 @@ function buildDailyCheckinCounts(
   }
 
   return Array.from(counts.entries()).map(([date, count]) => ({ date, count }))
+}
+
+/** 小时 → 时段映射 */
+function hourToPeriod(hour: number): string {
+  if (hour >= 6 && hour < 12) return '上午'
+  if (hour >= 12 && hour < 18) return '下午'
+  return '晚上'
+}
+
+/**
+ * 构建热力图数据（星期×时段×拖延次数）
+ * 基于任务的 createdAt 时间戳，提取星期和时段，
+ * 统计每个 (day, period) 格子中的拖延次数
+ */
+function buildHeatMapData(
+  tasks: Array<{ createdAt: Date }>,
+): Array<{ day: number; period: string; value: number }> {
+  // 初始化 7天 × 3时段 矩阵
+  const matrix: Record<string, number> = {}
+  for (let day = 0; day < 7; day++) {
+    for (const period of ['上午', '下午', '晚上']) {
+      matrix[`${day}-${period}`] = 0
+    }
+  }
+
+  // 统计每个任务的 day×period
+  for (const t of tasks) {
+    const day = t.createdAt.getDay() // 0-6 (周日=0)
+    const period = hourToPeriod(t.createdAt.getHours())
+    matrix[`${day}-${period}`]++
+  }
+
+  // 转为 HeatMap 组件需要的数组格式
+  const result: Array<{ day: number; period: string; value: number }> = []
+  for (let day = 0; day < 7; day++) {
+    for (const period of ['上午', '下午', '晚上']) {
+      result.push({ day, period, value: matrix[`${day}-${period}`] || 0 })
+    }
+  }
+  return result
 }
 
 /**

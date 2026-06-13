@@ -7,28 +7,11 @@ import ProfileHeatMap from './components/HeatMap'
 import ProfileTrendCurve from './components/TrendCurve'
 import styles from './style.module.css'
 
-/** 模拟热力图数据（横轴时段 × 纵轴星期 = 拖延次数） */
-function generateMockHeatMap(): Array<{ day: number; period: string; value: number }> {
-  const periods = ['上午', '下午', '晚上']
-  const data: Array<{ day: number; period: string; value: number }> = []
-  for (let day = 0; day < 7; day++) {
-    for (const period of periods) {
-      data.push({
-        day,
-        period,
-        value: Math.floor(Math.random() * 5),
-      })
-    }
-  }
-  return data
-}
-
 export default function ProfilePage() {
   const { user, setUser } = useUserStore()
   const [dashboard, setDashboard] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [heatMapData] = useState(() => generateMockHeatMap())
 
   // 昵称编辑
   const [editing, setEditing] = useState(false)
@@ -220,10 +203,7 @@ export default function ProfilePage() {
 
           {/* 热力图 */}
           <div className={styles.section}>
-            <ProfileHeatMap data={heatMapData} />
-            <p className={styles.heatmapHint}>
-              ⚠️ 热力图当前为模拟数据，后续版本将接入真实数据
-            </p>
+            <ProfileHeatMap data={dashboard?.heatMapData || []} />
           </div>
         </div>
       )}

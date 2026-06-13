@@ -17,6 +17,8 @@ export interface DashboardData {
   typeDistribution: Record<string, number>
   weekDailyTaskCounts: Array<{ date: string; count: number }>
   weekDailyCheckinCounts: Array<{ date: string; count: number }>
+  /** 拖延热力图数据（星期×时段×次数） */
+  heatMapData: Array<{ day: number; period: string; value: number }>
 }
 
 /** 获取首页轻量概览 */

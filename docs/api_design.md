@@ -833,6 +833,14 @@ GET /api/dashboard
       { "date": "2026-06-05", "count": 1 },
       { "date": "2026-06-06", "count": 1 },
       { "date": "2026-06-07", "count": 0 }
+    ],
+    "heatMapData": [
+      { "day": 0, "period": "上午", "value": 1 },
+      { "day": 0, "period": "下午", "value": 0 },
+      { "day": 0, "period": "晚上", "value": 2 },
+      { "day": 1, "period": "上午", "value": 3 },
+      { "day": 1, "period": "下午", "value": 1 },
+      { "day": 1, "period": "晚上", "value": 0 }
     ]
   },
   "message": "ok"
@@ -853,6 +861,7 @@ GET /api/dashboard
 | `typeDistribution` | object | Profile 饼图：各类型占比 |
 | `weekDailyTaskCounts` | array | Profile 折线图：每日任务趋势 |
 | `weekDailyCheckinCounts` | array | Profile 折线图：每日打卡趋势 |
+| `heatMapData` | array | Profile 热力图：星期(day)×时段(period)×次数(value)，基于 Task.createdAt 聚合 |
 
 ### 6.2 获取首页概览
 
