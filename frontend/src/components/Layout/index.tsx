@@ -4,6 +4,7 @@ import {
   Edit1Icon,
   ChartPieIcon,
   UserIcon,
+  CheckCircleIcon,
 } from 'tdesign-icons-react'
 import NavBar from '@/components/NavBar'
 import styles from './index.module.css'
@@ -24,6 +25,11 @@ const TABS = [
     key: '/analysis',
     label: '分析',
     Icon: ChartPieIcon,
+  },
+  {
+    key: '/checkin',
+    label: '打卡',
+    Icon: CheckCircleIcon,
   },
   {
     key: '/profile',

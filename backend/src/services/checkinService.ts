@@ -262,12 +262,13 @@ export async function getBadges(userId: number): Promise<Badge[]> {
  * 返回所有 7 枚预设徽章，每枚包含 earned 状态 + progress 进度
  */
 export async function getBadgeRulesWithProgress(userId: number) {
-  // 获取用户已有徽章名（判断 earned）
+  // 获取用户已有徽章（含 id / earnedAt / name 等完整信息）
   const existingBadges = await prisma.badge.findMany({
     where: { userId },
-    select: { name: true },
   })
-  const earnedNames = new Set(existingBadges.map((b) => b.name))
+  const earnedByName = new Map(
+    existingBadges.map((b) => [b.name, b])
+  )
 
   // 获取用户统计数据（用于计算进度）
   const totalCheckins = await prisma.checkin.count({ where: { userId } })
@@ -277,16 +278,29 @@ export async function getBadgeRulesWithProgress(userId: number) {
   })
   const streak = await getCheckinStreak(userId)
 
-  // 返回所有预设徽章，附带 earned + progress
-  return [
-    { name: BADGE_RULES.FIRST_CHECKIN.name, icon: BADGE_RULES.FIRST_CHECKIN.icon, condition: BADGE_RULES.FIRST_CHECKIN.condition, earned: totalCheckins >= 1, progress: { current: Math.min(totalCheckins, 1), target: 1 } },
-    { name: BADGE_RULES.STREAK_3.name, icon: BADGE_RULES.STREAK_3.icon, condition: BADGE_RULES.STREAK_3.condition, earned: streak >= 3, progress: { current: Math.min(streak, 3), target: 3 } },
-    { name: BADGE_RULES.STREAK_7.name, icon: BADGE_RULES.STREAK_7.icon, condition: BADGE_RULES.STREAK_7.condition, earned: streak >= 7, progress: { current: Math.min(streak, 7), target: 7 } },
-    { name: BADGE_RULES.STREAK_14.name, icon: BADGE_RULES.STREAK_14.icon, condition: BADGE_RULES.STREAK_14.condition, earned: streak >= 14, progress: { current: Math.min(streak, 14), target: 14 } },
-    { name: BADGE_RULES.STREAK_30.name, icon: BADGE_RULES.STREAK_30.icon, condition: BADGE_RULES.STREAK_30.condition, earned: streak >= 30, progress: { current: Math.min(streak, 30), target: 30 } },
-    { name: BADGE_RULES.TASK_10.name, icon: BADGE_RULES.TASK_10.icon, condition: BADGE_RULES.TASK_10.condition, earned: totalTasks >= 10, progress: { current: Math.min(totalTasks, 10), target: 10 } },
-    { name: BADGE_RULES.ANALYSIS_5.name, icon: BADGE_RULES.ANALYSIS_5.icon, condition: BADGE_RULES.ANALYSIS_5.condition, earned: totalAnalyses >= 5, progress: { current: Math.min(totalAnalyses, 5), target: 5 } },
+  const RULES = [
+    { rule: BADGE_RULES.FIRST_CHECKIN, met: totalCheckins >= 1, progress: { current: Math.min(totalCheckins, 1), target: 1 } },
+    { rule: BADGE_RULES.STREAK_3, met: streak >= 3, progress: { current: Math.min(streak, 3), target: 3 } },
+    { rule: BADGE_RULES.STREAK_7, met: streak >= 7, progress: { current: Math.min(streak, 7), target: 7 } },
+    { rule: BADGE_RULES.STREAK_14, met: streak >= 14, progress: { current: Math.min(streak, 14), target: 14 } },
+    { rule: BADGE_RULES.STREAK_30, met: streak >= 30, progress: { current: Math.min(streak, 30), target: 30 } },
+    { rule: BADGE_RULES.TASK_10, met: totalTasks >= 10, progress: { current: Math.min(totalTasks, 10), target: 10 } },
+    { rule: BADGE_RULES.ANALYSIS_5, met: totalAnalyses >= 5, progress: { current: Math.min(totalAnalyses, 5), target: 5 } },
   ]
+
+  // 返回所有预设徽章，附带 earned + progress + 真实 DB 中的 id / earnedAt
+  return RULES.map(({ rule, met, progress }) => {
+    const dbBadge = earnedByName.get(rule.name)
+    return {
+      id: dbBadge?.id ?? null,
+      name: rule.name,
+      icon: rule.icon,
+      condition: rule.condition,
+      earned: met,
+      earnedAt: dbBadge?.earnedAt ?? null,
+      progress,
+    }
+  })
 }
 
 /**

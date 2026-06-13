@@ -30,8 +30,8 @@
 }
 
 .earned .iconWrap {
-  background: linear-gradient(135deg, var(--color-warm), rgba(255, 255, 210, 0.5));
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+  background: linear-gradient(135deg, #FFD700, #FFF8DC);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.45);
 }
 
 .emoji {
