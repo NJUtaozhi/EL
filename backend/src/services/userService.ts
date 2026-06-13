@@ -8,7 +8,7 @@ import { config } from '../config'
 import type { LoginDTO, UserInfo, UserWithToken } from '../models/User'
 
 /**
- * 登录（openId 模式）：用户存在则更新信息，不存在则创建
+ * 登录（openId 模式）：用户存在则返回信息+token，不存在则创建
  */
 export async function login(dto: LoginDTO): Promise<UserWithToken> {
   let user = await prisma.user.findUnique({
@@ -16,14 +16,8 @@ export async function login(dto: LoginDTO): Promise<UserWithToken> {
   })
 
   if (user) {
-    // 已存在用户：更新昵称和头像
-    user = await prisma.user.update({
-      where: { openId: dto.openId },
-      data: {
-        nickname: dto.nickname ?? user.nickname,
-        avatar: dto.avatar ?? user.avatar,
-      },
-    })
+    // 已存在用户：仅登录，不覆盖已保存的昵称和头像
+    // 昵称修改应通过 PUT /user/me 单独更新
   } else {
     // 新用户：创建
     user = await prisma.user.create({

@@ -33,6 +33,8 @@ export default function ProfilePage() {
   // 昵称编辑
   const [editing, setEditing] = useState(false)
   const [editName, setEditName] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
   const fetchDashboard = useCallback(async () => {
@@ -60,17 +62,27 @@ export default function ProfilePage() {
 
   const saveNickname = async () => {
     const name = editName.trim()
-    if (!name || name === user?.nickname) {
+    if (!name) {
       setEditing(false)
       return
     }
+    if (name === user?.nickname) {
+      setEditing(false)
+      return
+    }
+    setSaving(true)
+    setSaveError('')
     try {
       const updated = await updateNickname(name)
       setUser(updated)
-    } catch {
-      // 失败恢复原值
+      setEditing(false)
+    } catch (err: any) {
+      // 失败保留编辑状态，显示错误提示
+      setSaveError(err?.message || '保存失败，请检查网络后重试')
+      inputRef.current?.focus()
+    } finally {
+      setSaving(false)
     }
-    setEditing(false)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -90,15 +102,20 @@ export default function ProfilePage() {
         <div className={styles.avatar}>😊</div>
         <div className={styles.userInfo}>
           {editing ? (
-            <input
-              ref={inputRef}
-              className={styles.nicknameInput}
-              value={editName}
-              onChange={(e) => setEditName(e.target.value)}
-              onBlur={saveNickname}
-              onKeyDown={handleKeyDown}
-              maxLength={20}
-            />
+            <div className={styles.editWrap}>
+              <input
+                ref={inputRef}
+                className={styles.nicknameInput}
+                value={editName}
+                onChange={(e) => { setEditName(e.target.value); setSaveError('') }}
+                onBlur={saveNickname}
+                onKeyDown={handleKeyDown}
+                maxLength={20}
+                disabled={saving}
+              />
+              {saving && <span className={styles.saveHint}>保存中...</span>}
+              {saveError && <span className={styles.saveError}>{saveError}</span>}
+            </div>
           ) : (
             <h3 className={styles.userName} onClick={startEdit} title="点击修改昵称">
               {user?.nickname || '拖延探索者'}
