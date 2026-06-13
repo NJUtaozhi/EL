@@ -258,6 +258,38 @@ export async function getBadges(userId: number): Promise<Badge[]> {
 }
 
 /**
+ * 获取徽章规则及用户进度（供前端徽章墙使用）
+ * 返回所有 7 枚预设徽章，每枚包含 earned 状态 + progress 进度
+ */
+export async function getBadgeRulesWithProgress(userId: number) {
+  // 获取用户已有徽章名（判断 earned）
+  const existingBadges = await prisma.badge.findMany({
+    where: { userId },
+    select: { name: true },
+  })
+  const earnedNames = new Set(existingBadges.map((b) => b.name))
+
+  // 获取用户统计数据（用于计算进度）
+  const totalCheckins = await prisma.checkin.count({ where: { userId } })
+  const totalTasks = await prisma.task.count({ where: { userId } })
+  const totalAnalyses = await prisma.analysis.count({
+    where: { task: { userId } },
+  })
+  const streak = await getCheckinStreak(userId)
+
+  // 返回所有预设徽章，附带 earned + progress
+  return [
+    { name: BADGE_RULES.FIRST_CHECKIN.name, icon: BADGE_RULES.FIRST_CHECKIN.icon, condition: BADGE_RULES.FIRST_CHECKIN.condition, earned: totalCheckins >= 1, progress: { current: Math.min(totalCheckins, 1), target: 1 } },
+    { name: BADGE_RULES.STREAK_3.name, icon: BADGE_RULES.STREAK_3.icon, condition: BADGE_RULES.STREAK_3.condition, earned: streak >= 3, progress: { current: Math.min(streak, 3), target: 3 } },
+    { name: BADGE_RULES.STREAK_7.name, icon: BADGE_RULES.STREAK_7.icon, condition: BADGE_RULES.STREAK_7.condition, earned: streak >= 7, progress: { current: Math.min(streak, 7), target: 7 } },
+    { name: BADGE_RULES.STREAK_14.name, icon: BADGE_RULES.STREAK_14.icon, condition: BADGE_RULES.STREAK_14.condition, earned: streak >= 14, progress: { current: Math.min(streak, 14), target: 14 } },
+    { name: BADGE_RULES.STREAK_30.name, icon: BADGE_RULES.STREAK_30.icon, condition: BADGE_RULES.STREAK_30.condition, earned: streak >= 30, progress: { current: Math.min(streak, 30), target: 30 } },
+    { name: BADGE_RULES.TASK_10.name, icon: BADGE_RULES.TASK_10.icon, condition: BADGE_RULES.TASK_10.condition, earned: totalTasks >= 10, progress: { current: Math.min(totalTasks, 10), target: 10 } },
+    { name: BADGE_RULES.ANALYSIS_5.name, icon: BADGE_RULES.ANALYSIS_5.icon, condition: BADGE_RULES.ANALYSIS_5.condition, earned: totalAnalyses >= 5, progress: { current: Math.min(totalAnalyses, 5), target: 5 } },
+  ]
+}
+
+/**
  * 获取打卡状态概览（供仪表盘使用）
  */
 export async function getCheckinStatus(userId: number): Promise<CheckinStatus> {

@@ -2,10 +2,10 @@
  * 打卡相关 API
  */
 import api from './index'
-import type { CheckinRecord, Badge } from '@/types/user'
+import type { CheckinRecord, CheckinResponse, Badge, BadgeRule } from '@/types/user'
 
 /** 执行打卡 */
-export const doCheckin = (action: string): Promise<CheckinRecord> =>
+export const doCheckin = (action: string): Promise<CheckinResponse> =>
   api.post('/checkin', { action })
 
 /** 获取打卡历史 */
@@ -23,3 +23,7 @@ export const getCheckinStatus = (): Promise<{ todayCheckedIn: boolean; streak: n
 /** 获取徽章列表 */
 export const getBadges = (): Promise<Badge[]> =>
   api.get('/checkin/badges')
+
+/** 获取徽章规则及进度（供徽章墙使用） */
+export const getBadgeRules = (): Promise<BadgeRule[]> =>
+  api.get('/checkin/badge-rules')

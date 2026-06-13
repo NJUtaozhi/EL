@@ -1,27 +1,19 @@
-import type { Badge } from '@/types/user'
+import type { Badge, BadgeProgress } from '@/types/user'
 import styles from './index.module.css'
 
 interface BadgeDisplayProps {
-  badge: Badge
+  badge: Badge | { name: string; icon: string; condition: string; earnedAt?: string }
   earned?: boolean
-}
-
-/** 徽章 → emoji 映射 */
-const BADGE_EMOJI: Record<string, string> = {
-  '首次打卡': '🎯',
-  '连续7天': '🔥',
-  '连续30天': '👑',
-  '纪录达人': '📋',
-  '归因大师': '🧠',
-  '行动先锋': '⚡',
-  '完美一周': '💎',
+  progress?: BadgeProgress
 }
 
 /**
  * 徽章图标展示
+ * - earned: 金色发光 + 获得日期
+ * - locked: 灰度 + 进度 / 条件文字
  */
-export default function BadgeDisplay({ badge, earned = false }: BadgeDisplayProps) {
-  const emoji = BADGE_EMOJI[badge.name] || '🏅'
+export default function BadgeDisplay({ badge, earned = false, progress }: BadgeDisplayProps) {
+  const emoji = badge.icon || '🏅'
 
   return (
     <div className={`${styles.badge} ${earned ? styles.earned : styles.locked}`}>
@@ -31,14 +23,25 @@ export default function BadgeDisplay({ badge, earned = false }: BadgeDisplayProp
       </div>
       <span className={styles.name}>{badge.name}</span>
       {earned ? (
-        <span className={styles.date}>
-          {new Date(badge.earnedAt).toLocaleDateString('zh-CN', {
-            month: 'short',
-            day: 'numeric',
-          })}
-        </span>
+        badge.earnedAt ? (
+          <span className={styles.date}>
+            {new Date(badge.earnedAt).toLocaleDateString('zh-CN', {
+              month: 'short',
+              day: 'numeric',
+            })}
+          </span>
+        ) : null
       ) : (
-        <span className={styles.hint}>未解锁</span>
+        <>
+          {progress ? (
+            <span className={styles.progress}>
+              {progress.current}/{progress.target}
+            </span>
+          ) : (
+            <span className={styles.hint}>未解锁</span>
+          )}
+          <span className={styles.condition}>{badge.condition}</span>
+        </>
       )}
     </div>
   )

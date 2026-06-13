@@ -77,6 +77,20 @@ export async function getStreak(req: Request, res: Response, next: NextFunction)
 }
 
 /**
+ * GET /api/checkin/badge-rules
+ * 获取全部徽章规则及当前用户的进度（供前端徽章墙使用）
+ */
+export async function getBadgeRules(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const userId = req.user!.userId
+    const rules = await checkinService.getBadgeRulesWithProgress(userId)
+    success(res, rules)
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
  * GET /api/checkin/badges
  * 获取用户已获得的徽章列表
  */

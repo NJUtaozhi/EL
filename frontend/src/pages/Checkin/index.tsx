@@ -2,10 +2,12 @@ import { useState, useCallback, useEffect } from 'react'
 import { useCheckin } from '@/hooks/useCheckin'
 import { getCheckinHistory } from '@/api/checkin'
 import { useCheckinStore } from '@/store/checkinStore'
+import type { Badge } from '@/types/user'
 import CheckinButton from '@/components/CheckinButton'
 import MicroAction, { ACTION_POOL } from './components/MicroAction'
 import CheckinCalendar from './components/CheckinCalendar'
 import BadgeWall from './components/BadgeWall'
+import BadgeToast from '@/components/BadgeToast'
 
 export default function CheckinPage() {
   const { streak, todayCheckedIn, loading, checkin } = useCheckin()
@@ -13,6 +15,8 @@ export default function CheckinPage() {
 
   const [action, setAction] = useState(ACTION_POOL[0])
   const [checkedDates, setCheckedDates] = useState<Set<string>>(new Set())
+  const [newBadges, setNewBadges] = useState<Badge[]>([])
+  const [badgeRefreshKey, setBadgeRefreshKey] = useState(0)
 
   // 加载打卡历史
   useEffect(() => {
@@ -39,9 +43,13 @@ export default function CheckinPage() {
   // 执行打卡
   const handleCheckin = async () => {
     try {
-      await checkin(action)
+      const badges = await checkin(action)
       const today = new Date().toISOString().slice(0, 10)
       setCheckedDates((prev) => new Set(prev).add(today))
+      if (badges && badges.length > 0) {
+        setNewBadges(badges)
+        setBadgeRefreshKey((k) => k + 1)
+      }
     } catch {
       // 静默
     }
@@ -77,8 +85,16 @@ export default function CheckinPage() {
 
       {/* 徽章墙 */}
       <div style={{ marginBottom: 16 }}>
-        <BadgeWall />
+        <BadgeWall refreshKey={badgeRefreshKey} />
       </div>
+
+      {/* 徽章获得庆祝通知 */}
+      {newBadges.length > 0 && (
+        <BadgeToast
+          badges={newBadges}
+          onDismiss={() => setNewBadges([])}
+        />
+      )}
     </div>
   )
 }
