@@ -42,6 +42,31 @@ export async function updateMe(req: Request, res: Response, next: NextFunction):
 }
 
 /**
+ * POST /api/user/avatar
+ * 上传用户头像
+ */
+export async function uploadAvatar(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const userId = req.user!.userId
+    const file = req.file
+
+    if (!file) {
+      error(res, '请选择要上传的图片', 400)
+      return
+    }
+
+    // 构造公开访问 URL
+    const avatarUrl = `/uploads/${file.filename}`
+    const user = await userService.updateAvatar(userId, avatarUrl)
+
+    logger.info(`用户 ${userId} 更新头像: ${avatarUrl}`)
+    success(res, user, '头像已更新')
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
  * GET /api/user/me
  * 获取当前登录用户信息
  */

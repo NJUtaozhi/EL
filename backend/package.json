@@ -11,22 +11,24 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "express": "^4.19.0",
+    "@prisma/client": "^5.14.0",
+    "axios": "^1.7.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.0",
+    "express": "^4.19.0",
     "jsonwebtoken": "^9.0.0",
-    "axios": "^1.7.0",
-    "@prisma/client": "^5.14.0",
-    "zod": "^3.23.0",
-    "winston": "^3.13.0"
+    "multer": "^2.1.1",
+    "winston": "^3.13.0",
+    "zod": "^3.23.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.0",
     "@types/cors": "^2.8.0",
+    "@types/express": "^4.17.0",
     "@types/jsonwebtoken": "^9.0.0",
-    "typescript": "^5.4.0",
-    "tsx": "^4.11.0",
+    "@types/multer": "^2.1.0",
     "prisma": "^5.14.0",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.0",
     "vitest": "^1.6.0"
   }
 }

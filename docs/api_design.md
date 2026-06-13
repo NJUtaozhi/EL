@@ -1,6 +1,6 @@
 # 不拖延实验室 — API 接口文档
 
-> **版本**：v1.0  
+> **版本**：v1.1  
 > **基础路径**：`http://localhost:3000/api`  
 > **数据格式**：JSON  
 > **认证方式**：Bearer JWT  
@@ -10,10 +10,10 @@
 ## 目录
 
 1. [通用说明](#1-通用说明)
-2. [用户模块](#2-用户模块)
+2. [用户模块](#2-用户模块) — 登录/注册、获取信息、更新昵称、上传头像
 3. [任务模块](#3-任务模块)
 4. [归因分析模块](#4-归因分析模块)
-5. [打卡模块](#5-打卡模块)
+5. [打卡模块](#5-打卡模块) — 打卡、徽章规则含进度、徽章列表、状态、日历
 6. [仪表盘模块](#6-仪表盘模块)
 7. [干预方案模块](#7-干预方案模块)
 8. [附录](#8-附录)
@@ -154,6 +154,45 @@ GET /api/user/me
   "message": "ok"
 }
 ```
+
+### 2.3 上传头像
+
+```
+POST /api/user/avatar
+```
+
+**认证：** Bearer JWT
+
+**说明：** 上传用户头像图片，支持 jpg/png/gif/webp 格式，最大 2MB。上传后自动更新 `user.avatar` 字段为 `/uploads/<uuid>.<ext>` 路径。
+
+**请求格式：** `multipart/form-data`
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `file` | File | ✅ | 图片文件（jpg/png/gif/webp，≤2MB） |
+
+**成功响应（200）：**
+
+```json
+{
+  "code": 0,
+  "data": {
+    "id": 1,
+    "nickname": "小明",
+    "avatar": "/uploads/a1b2c3d4-...png",
+    "checkinStreak": 3,
+    "createdAt": "2026-06-01T10:00:00.000Z"
+  },
+  "message": "头像已更新"
+}
+```
+
+**错误响应：**
+
+| HTTP 状态码 | 说明 |
+|------------|------|
+| 400 | 未选择文件、文件格式不支持或超过大小限制 |
+| 401 | 未登录或 token 无效 |
 
 ---
 
@@ -603,6 +642,68 @@ GET /api/checkin/badges
 }
 ```
 
+### 5.4.5 获取徽章规则及进度
+
+```
+GET /api/checkin/badge-rules
+```
+
+**认证：** Bearer JWT
+
+**说明：** 返回全部 7 枚预设徽章的规则定义，以及当前用户对每枚徽章的 earned 状态和进度（current/target）。供前端徽章墙渲染全部徽章（含已获得和未解锁）使用。
+
+**成功响应（200）：**
+
+```json
+{
+  "code": 0,
+  "data": [
+    {
+      "name": "初次打卡",
+      "icon": "🎯",
+      "condition": "完成首次打卡",
+      "earned": true,
+      "progress": { "current": 1, "target": 1 }
+    },
+    {
+      "name": "连续三天",
+      "icon": "🔥",
+      "condition": "连续打卡3天",
+      "earned": true,
+      "progress": { "current": 3, "target": 3 }
+    },
+    {
+      "name": "坚持一周",
+      "icon": "⭐",
+      "condition": "连续打卡7天",
+      "earned": false,
+      "progress": { "current": 3, "target": 7 }
+    },
+    {
+      "name": "记录达人",
+      "icon": "📝",
+      "condition": "累计记录10个任务",
+      "earned": false,
+      "progress": { "current": 5, "target": 10 }
+    }
+  ],
+  "message": "ok"
+}
+```
+
+**返回字段说明：**
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `name` | string | 徽章名称 |
+| `icon` | string | 徽章 emoji 图标 |
+| `condition` | string | 解锁条件描述 |
+| `earned` | boolean | 当前用户是否已获得 |
+| `progress.current` | number | 当前进度数值 |
+| `progress.target` | number | 目标数值 |
+
+---
+
 ### 5.5 获取打卡状态概览
 
 ```
@@ -910,6 +1011,8 @@ GET /api/intervention/strategies
 |------|------|------|----------|----------|------|
 | POST | `/api/user/login` | ❌ | ✅ | ❌ | 用户 |
 | GET | `/api/user/me` | ✅ | ❌ | ❌ | 用户 |
+| PUT | `/api/user/me` | ✅ | ✅ | ❌ | 用户 |
+| POST | `/api/user/avatar` | ✅ | ❌ | ❌ | 用户 |
 | POST | `/api/tasks` | ✅ | ✅ | ❌ | 任务 |
 | GET | `/api/tasks` | ✅ | ❌ | ❌ | 任务 |
 | GET | `/api/tasks/:id` | ✅ | ❌ | ❌ | 任务 |
@@ -921,6 +1024,7 @@ GET /api/intervention/strategies
 | POST | `/api/checkin` | ✅ | ✅ | ❌ | 打卡 |
 | GET | `/api/checkin/history` | ✅ | ❌ | ❌ | 打卡 |
 | GET | `/api/checkin/streak` | ✅ | ❌ | ❌ | 打卡 |
+| GET | `/api/checkin/badge-rules` | ✅ | ❌ | ❌ | 打卡 |
 | GET | `/api/checkin/badges` | ✅ | ❌ | ❌ | 打卡 |
 | GET | `/api/checkin/status` | ✅ | ❌ | ❌ | 打卡 |
 | GET | `/api/checkin/calendar` | ✅ | ❌ | ❌ | 打卡 |
@@ -941,6 +1045,8 @@ GET /api/intervention/strategies
 | 提交分析 | `taskId` | number, int, positive |
 | 提交分析 | `forceRefresh` | boolean, optional |
 | 打卡 | `action` | string, min(1), max(200) |
+| 上传头像 | `file` | 图片文件, jpg/png/gif/webp, ≤2MB（multer 校验） |
+| 更新昵称 | `nickname` | string, min(1), max(20) |
 | 生成干预 | `procrastinationType` | enum(5种拖延类型) |
 | 生成干预 | `taskTitle` | string, max(200), optional |
 
@@ -973,4 +1079,4 @@ docker compose up -d
 
 ---
 
-*文档版本：v1.0 · 最后更新：2026年6月6日*
+*文档版本：v1.1 · 最后更新：2026年6月13日*

@@ -15,3 +15,10 @@ export const getUserInfo = (): Promise<User> =>
 /** 更新昵称 */
 export const updateNickname = (nickname: string): Promise<User> =>
   api.put('/user/me', { nickname })
+
+/** 上传头像 */
+export const uploadAvatar = (file: File): Promise<User> => {
+  const formData = new FormData()
+  formData.append('file', file)
+  return api.post('/user/avatar', formData)
+}

@@ -34,6 +34,35 @@
   justify-content: center;
   background: var(--bg-mask);
   border-radius: var(--radius-full);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0);
+  font-size: 18px;
+  opacity: 0;
+  transition: all 0.2s;
+  border-radius: var(--radius-full);
+}
+
+.avatar:hover .avatarOverlay {
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 1;
 }
 
 .userInfo {

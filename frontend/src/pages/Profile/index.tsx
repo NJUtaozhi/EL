@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { getDashboard, type DashboardData } from '@/api/dashboard'
-import { updateNickname } from '@/api/user'
+import { updateNickname, uploadAvatar } from '@/api/user'
 import { useUserStore } from '@/store/userStore'
 import WeeklyReport from './components/WeeklyReport'
 import ProfileHeatMap from './components/HeatMap'
@@ -36,6 +36,10 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // 头像上传
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [avatarLoading, setAvatarLoading] = useState(false)
 
   const fetchDashboard = useCallback(async () => {
     setLoading(true)
@@ -90,6 +94,27 @@ export default function ProfilePage() {
     if (e.key === 'Escape') setEditing(false)
   }
 
+  // 头像上传
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setAvatarLoading(true)
+    try {
+      const updated = await uploadAvatar(file)
+      setUser(updated)
+    } catch {
+      // 静默失败
+    } finally {
+      setAvatarLoading(false)
+      // 重置 input 以便重复选择同一文件
+      e.target.value = ''
+    }
+  }
+
   return (
     <div className={`page-container ${styles.profile}`}>
       <div className={styles.header}>
@@ -99,7 +124,25 @@ export default function ProfilePage() {
 
       {/* 用户信息卡片 */}
       <div className={`card ${styles.userCard}`}>
-        <div className={styles.avatar}>😊</div>
+        <div
+          className={styles.avatar}
+          onClick={handleAvatarClick}
+          title="点击更换头像"
+        >
+          {user?.avatar ? (
+            <img src={user.avatar} alt="头像" className={styles.avatarImg} />
+          ) : (
+            <span>{avatarLoading ? '⏳' : '😊'}</span>
+          )}
+          <span className={styles.avatarOverlay}>📷</span>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
         <div className={styles.userInfo}>
           {editing ? (
             <div className={styles.editWrap}>

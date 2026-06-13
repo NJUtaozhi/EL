@@ -66,6 +66,24 @@ export async function updateNickname(userId: number, nickname: string): Promise<
 }
 
 /**
+ * 更新用户头像
+ */
+export async function updateAvatar(userId: number, avatarUrl: string): Promise<UserInfo> {
+  const user = await prisma.user.update({
+    where: { id: userId },
+    data: { avatar: avatarUrl },
+  })
+
+  return {
+    id: user.id,
+    nickname: user.nickname,
+    avatar: user.avatar,
+    checkinStreak: user.checkinStreak,
+    createdAt: user.createdAt,
+  }
+}
+
+/**
  * 根据 ID 获取用户信息
  */
 export async function getUserById(userId: number): Promise<UserInfo | null> {
